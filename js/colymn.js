@@ -82,7 +82,7 @@
                     uu = reg(joe, "(left|right)"),
                     yy = reg(joe, "center"),
                     zz = reg(joe, "col"),
-                    ll = reg(joe, "(col|center)");
+                    ll = reg("\\w+", "(col|center)");
                 
                 // resets
                 if (testy(ll)) {
