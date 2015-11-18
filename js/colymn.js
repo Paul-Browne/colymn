@@ -1,3 +1,5 @@
+/*! colymn.min.js v1.3 | GNU License | Paul Browne | 2015 */
+
 (function() {
 
     // debounced resize event
