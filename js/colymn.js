@@ -1,4 +1,4 @@
-/*! colymn.min.js v1.3 | GNU License | Paul Browne | 2015 */
+/*! colymn.min.js v1.4 | GNU License | Paul Browne | 2015 */
 
 (function() {
 
@@ -15,19 +15,35 @@
             }
         }), b;
     }
+  
+    // defaults 
+    var defaults = {
+            margin: 4,
+            phonePortrait: 300,
+            phoneLandscape: 300,
+            tabletPortrait: 440,
+            tabletLandscape: 640,
+            desktop: 1024,
+            fullHD: 1440,
+        }, 
+        args;
+      
+      
+    
 
-    colymn = function() {
+    colymn = function(options) {
+        args = arguments[0];
         var a = window.innerWidth,
             b = window.innerHeight,
             c = document.querySelectorAll("*"),
             d = document.querySelectorAll(".colymn-clearfix"),
-            margin = 4,
-            pp = 300,
-            pl = 300,
-            tp = 440,
-            tl = 640,
-            dt = 1024,
-            hd = 1440;
+            margin = options ? (options.margin ? options.margin : defaults.margin) : defaults.margin,
+            pp = options ? (options.phonePortrait ? options.phonePortrait : defaults.phonePortrait) : defaults.phonePortrait,
+            pl = options ? (options.phoneLandscape ? options.phoneLandscape : defaults.phoneLandscape) : defaults.phoneLandscape,
+            tp = options ? (options.tabletPortrait ? options.tabletPortrait : defaults.tabletPortrait) : defaults.tabletPortrait,
+            tl = options ? (options.tabletLandscape ? options.tabletLandscape : defaults.tabletLandscape) : defaults.tabletLandscape,
+            dt = options ? (options.desktop ? options.desktop : defaults.desktop) : defaults.desktop,
+            hd = options ? (options.fullHD ? options.fullHD : defaults.fullHD) : defaults.fullHD;
 
         // remove all clearing divs
         for (var z = 0; z < d.length; z++) {
@@ -195,6 +211,6 @@
         }
     };
     a(function() {
-        colymn();
+        colymn(args);
     });
 })();
