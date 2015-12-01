@@ -24,7 +24,7 @@
             tabletPortrait: 440,
             tabletLandscape: 640,
             desktop: 1024,
-            fullHD: 1440,
+            fullHD: 1440
         }, 
         args;
       
