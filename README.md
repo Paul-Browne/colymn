@@ -6,7 +6,7 @@
 * no dependencies - written in pure javascript
 * lightweight - ~1kb when minified and gzipped.
 * easy to use - if you can use fractions, you can use colymn
-* responsive - includes upto 6 breakpoints - reacts to resize events
+* responsive - includes upto 8 breakpoints - reacts to resize events
 * no clearfix containers! - automagically calculates where to clear floats
 
 ___
