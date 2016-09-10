@@ -1,4 +1,4 @@
-/*! colymn.min.js v1.4 | GNU License | Paul Browne | 2015 */
+/*! colymn.min.js v2 | GNU License | Paul Browne | 2016 */
 
 (function() {
 
@@ -19,17 +19,11 @@
     // defaults 
     var defaults = {
             margin: 4,
-            phonePortrait: 300,
-            phoneLandscape: 300,
-            tabletPortrait: 440,
-            tabletLandscape: 640,
-            desktop: 1024,
-            fullHD: 1440
+            phone: 680,
+            tablet: 1040,
+            desktop: 1400,
         }, 
         args;
-      
-      
-    
 
     colymn = function(options) {
         args = arguments[0];
@@ -38,13 +32,9 @@
             c = document.querySelectorAll("*"),
             d = document.querySelectorAll(".colymn-clearfix"),
             margin = options ? (options.margin ? options.margin : defaults.margin) : defaults.margin,
-            pp = options ? (options.phonePortrait ? options.phonePortrait : defaults.phonePortrait) : defaults.phonePortrait,
-            pl = options ? (options.phoneLandscape ? options.phoneLandscape : defaults.phoneLandscape) : defaults.phoneLandscape,
-            tp = options ? (options.tabletPortrait ? options.tabletPortrait : defaults.tabletPortrait) : defaults.tabletPortrait,
-            tl = options ? (options.tabletLandscape ? options.tabletLandscape : defaults.tabletLandscape) : defaults.tabletLandscape,
-            dt = options ? (options.desktop ? options.desktop : defaults.desktop) : defaults.desktop,
-            hd = options ? (options.fullHD ? options.fullHD : defaults.fullHD) : defaults.fullHD;
-
+            pp = options ? (options.phone ? options.phone : defaults.phone) : defaults.phone,
+            tp = options ? (options.tablet ? options.tablet : defaults.tablet) : defaults.tablet,
+            dt = options ? (options.desktop ? options.desktop : defaults.desktop) : defaults.desktop;
         // remove all clearing divs
         for (var z = 0; z < d.length; z++) {
             d[z].parentNode.removeChild(d[z]);
@@ -94,25 +84,41 @@
                 var q = c[x].children;
                 for (var g = 0; g < q.length; ++g) {
                     var m = q[g].style;
-                    var joe = "xx";
-                    if ((a > pp) && (b > a) && (testy(rep("pp")))) {
-                        joe = "pp";
+                    var joe = "all";
+                  
+                  if( a < pp ){
+                      if( testy(rep("phone")) ){
+                        joe = "phone";
+                      }                      
+                      if( (b>a)&&testy(rep("phone-portrait")) ){
+                        joe = "phone-portrait";
+                      }                      
+                      if( (a>b)&&testy(rep("phone-landscape")) ){
+                        joe = "phone-portrait";
+                      }                       
                     }
-                    if ((a > pl) && (a > b) && (testy(rep("pl")))) {
-                        joe = "pl";
+                  
+                    if(( a >= pp )&&( a < tp )){
+                      if( testy(rep("tablet")) ){
+                        joe = "tablet";
+                      }                      
+                      if( (b>a)&&testy(rep("tablet-portrait")) ){
+                        joe = "tablet-portrait";
+                      }                      
+                      if( (a>b)&&testy(rep("tablet-landscape")) ){
+                        joe = "tablet-portrait";
+                      }                       
+                    }                  
+                  
+                    if ((a >= tp) && (testy(rep("laptop")))) {
+                        joe = "laptop";
                     }
-                    if ((a > tp) && (b > a) && (testy(rep("tp")))) {
-                        joe = "tp";
-                    }
-                    if ((a > tl) && (a > b) && (testy(rep("tl")))) {
-                        joe = "tl";
-                    }
-                    if ((a > dt) && (testy(rep("dt")))) {
-                        joe = "dt";
-                    }
-                    if ((a >= hd) && (testy(rep("hd")))) {
-                        joe = "hd";
-                    }
+                  
+                    if ((a >= dt) && (testy(rep("desktop")))) {
+                        joe = "desktop";
+                    }  
+                  
+                  
                     var ss = reg(joe, "left"),
                         rr = reg(joe, "right"),
                         tt = reg(joe, "(col|offset)"),
