@@ -302,6 +302,9 @@ Just so long as they all add up to 1
 
 >About as accurate as possible without using a lot of javascript to detect user agents etc. Either way all ipads come under tablets and iphones come under phones, as do samsung galaxys. The most common phones and tablets get catagorized correctly. Some phablets may come under tablets, others will be phones.
 
+>When i resize my browser past a breakpoint the layout doesn't always update immediately
+
+>This is intentional. I added a debounced resize so that the layout isn't been recalculated every time the viewport changes by a pixel. Basically the viewport has to stay the samesize, after been resized, for one-fifth of a second (200ms) before the layout is recalculated. 
 
 ___
 ####version
