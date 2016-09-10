@@ -40,7 +40,7 @@ ___
 
 ####How to use
 
-You write column widths like so `prefix-col-X-Y`, where `X ÷ Y` is the columns width and the `prefix` is either `all, phone, phone-portrait, phone-landscape, tablet, tablet-portrait, tablet-landscape, laptop or desktop`, these represent the different screen sizes. (defaults shown)
+You write column widths like so `prefix-col-X-Y`, where `X ÷ Y` is the columns width and the `prefix` is either `all`, `phone`, `phone-portrait`, `phone-landscape`, `tablet`, `tablet-portrait`, `tablet-landscape`, `laptop` or `desktop`, these represent the different screen sizes. (defaults shown)
 
 | type | Prefix | Size |
 |------|--------|------|
@@ -298,7 +298,7 @@ On desktop both the classes `<html class="laptop desktop">` will be present, thi
 ```
 Just so long as they all add up to 1
 
->How accurate are the terms 'mobile' and 'tablet'
+>How accurate are the terms 'phone' and 'tablet'
 
 >About as accurate as possible without using a lot of javascript to detect user agents etc. Either way all ipads come under tablets and iphones come under phones, as do samsung galaxys. The most common phones and tablets get catagorized correctly. Some phablets may come under tablets, others will be phones.
 
