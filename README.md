@@ -235,7 +235,7 @@ In this example you can see how the auto-insertion of "clear-floats" allows you 
 <div class="phone-col-1-2 tablet-col-1-3 laptop-col-1-4 desktop-1-5">...</div>
 <!-- clear float -->        <!-- for tablet -->
 <div class="phone-col-1-2 tablet-col-1-3 laptop-col-1-4 desktop-1-5">...</div>
-<!-- clear float -->        <!-- for laptop -->
+<!-- clear float -->        <!-- for phone and laptop -->
 <div class="phone-col-1-2 tablet-col-1-3 laptop-col-1-4 desktop-1-5">...</div>
 <!-- clear float -->        <!-- for desktop -->
 
