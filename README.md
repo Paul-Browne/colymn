@@ -29,9 +29,9 @@ or with options
   <script>
     colymn({
       margin: 4,
-      phone: 680, // upto 680 covers nearly all phones (maybe not some phablets)
-      tablet: 1040, // upto 1040
-      desktop: 1400, //greater than 1400, basically bigger than 1366x768 laptops
+      phone: 680, // upto 680px
+      tablet: 1040, // upto 1040px
+      desktop: 1400, //greater than 1400px
      });
   </script>
 </body>
@@ -45,40 +45,14 @@ You write column widths like so `prefix-col-X-Y`, where `X ÷ Y` is the columns 
 | type | Prefix | Size |
 |------|--------|------|
 |cross browser |`all`| `all sizes`|
-|phone |`phone`| `less than 680px`|
-|phone: portrait |`phone-portrait`| `less than 680px & height greater than width`|
-|phone: landscape |`phone-landscape`| `less than 680px & width greater than height`|
-|tablet |`tablet`| `greater than 680px`|
-|tablet:portrait |`tablet-portrait`| `greater than 680px & height greater than width`|
-|tablet:landscape |`tablet-landscape`| `greater than 680px & width greater than height`|
+|phone |`phone`| `less than 680px wide`|
+|phone: portrait |`phone-portrait`| `less than 680px wide & height greater than width`|
+|phone: landscape |`phone-landscape`| `less than 680px wide & width greater than height`|
+|tablet |`tablet`| `greater than 680px and less than 1040px wide`|
+|tablet: portrait |`tablet-portrait`| `greater than 680px and less than 1040px wide & height greater than width`|
+|tablet: landscape |`tablet-landscape`| `greater than 680px and less than 1040px wide & width greater than height`|
 |laptop |`laptop`| `greater than 1040px`|
 |desktop |`desktop`| `greater than 1400px`|
-
-
-___
-
-####grid inheritence
-
-colymn works so that breakpoints inherit the size from smaller breakpoints of similar aspect ratio. for example;
-
-```html
-<div class="phone-center-5-6 desktop-col-3-4" id="main">...</div>
-<div class="phone-center-5-6 desktop-col-1-4" id="sidebar">...</div>
-```
-
-when this example is viewed on a phone in portrait or a tablet in portrait, there will be 2 columns that are almost the full width of the screen, with the sidebar following after the main column. But when viewed on a phone in landscape, on a tablet in landscape, on a desktop or a full HD monitor, there will be 2 columns: a main column and a sidebar, three quarters and one quarter wide respectively. This is because `hd`, `dt` and `tl` have a similar aspect ratio as `pl` (all 4 are wider than they are high) and therefore inherit the `pl` markup.
-
-Here is a table to show how inheritence works.
-
-|    | xx | pp | pl | tp | tl | dt | hd |
-|----|----|----|----|----|----|----|----|
-| xx |    |    |    |    |    |    |    |
-| pp |yes |    |    |    |    |    |    |
-| pl |yes |no  |    |    |    |    |    |
-| tp |yes |yes |no  |    |    |    |    |
-| tl |yes |no  |yes |no  |    |    |    |
-| dt |yes |no  |yes |no  |yes |    |    |
-| hd |yes |no  |yes |no  |yes |yes |    |
 
 ___
 
@@ -87,17 +61,20 @@ ___
 The bread-and-butter of any grid system is its ability to create columns. colymn does this like so...
 
 ```html
-<div class="tl-col-3-4" id="main">...</div>
-<div class="tl-col-1-4" id="sidebar">...</div>
+<div class="all-col-3-4" id="main">...</div>
+<div class="all-col-1-4" id="sidebar">...</div>
 ```
 
-On a screen size greater than 640px wide, this markup would result in 2 columns - a main and a sidebar, three quarters and one quarter wide, respectively. On a screen size less than or equal to 640px, the columns would both be 100% wide, with the sidebar following after the main column.
+This markup would result in 2 columns - a main and a sidebar, three quarters and one quarter wide, respectively.
+...but you probably wouldn't want two columns on mobile, so you could write something like this
 
-######NOTE
+```html
+<div class="all-col-3-4 phone-center-6-7" id="main">...</div>
+<div class="phone-center-6-7 all-col-1-4" id="sidebar">...</div>
+<!-- note: it doesn't matter what order you write the classes -->
+```
 
-In the above example, since there is no `xx-col`, `pp-col`, `pl-col` or `tp-col` markup, columns will revert to a width of 100% wide, when the screen is less than or equal to 640px. 
-
-In the above example, since there is no `dt-col` or `hd-col` markup, columns will **inherit** the width of the previous largest breakpoint of similar aspect ratio, ie. `tl-col`, when the screen width is greater than 1024px and 1440px.
+This markup would result in 2 columns on everything _except_ mobiles, on which both columns would be 85% wide, with the sidebar beneath the main column.
 
 ___
 
@@ -106,47 +83,74 @@ ___
 Centered columns are columns that are centered - shocker!
 
 ```html
-<div class="xx-center-6-7 dt-center-3-4" id="first">...</div>
-<div class="xx-center-6-7 dt-center-3-4" id="second">...</div>
+<div class="all-center-6-7 laptop-center-3-4" id="first">...</div>
+<div class="all-center-6-7 laptop-center-3-4" id="second">...</div>
 ```
 
-On all devices both columns will be six sevenths wide and centered up until devices with a screen size greater than 1024px wide, where both columns will be three quarters wide and centered.
+On all devices both columns will be six sevenths wide and centered up until devices with a screen size greater than 1040px wide, where both columns will be three quarters wide and centered.
 
 you can also center a column with a **fixed** width in either pixels or ems
 
 ```html
-<div class="dt-center-960px" id="first">...</div>
-<div class="dt-center-60em" id="second">...</div>
+<div class="desktop-center-960px" id="first">...</div>
+<div class="desktop-center-60em" id="second">...</div>
 ```
 
-In the above example you would get a centered column 960px and 60ems wide, when viewed on a desktop
+In the above example you would get a centered column 960px and 60em wide, when viewed on a desktop
 
 
 ######NOTE
-There is no point declaring a new breakpoint if it is the same as the previous one ie.
+The `all` class acts as shorthand to target all devices.
 ```html
-<div class="xx-center-6-7 dt-center-3-4">...</div>
+<div class="all-center-6-7">...</div>
 <!-- is the same as -->
-<div class="xx-center-6-7 pp-center-6-7 pl-center-6-7 tp-center-6-7 tl-center-6-7 dt-center-3-4 hd-center-3-4">...</div>
+<div class="phone-center-6-7 tablet-center-6-7 laptop-center-6-7 desktop-center-6-7">...</div>
 ```
-
+and you can omit the `desktop` if you have a specified for `laptop`
+```html
+<div class="laptop-center-6-7">...</div>
+<!-- is the same as -->
+<div class="laptop-center-6-7 desktop-center-6-7">...</div>
+```
+also, how you target devices is up to you, for instance
+```html
+<div class="all-col-3-4 phone-center-6-7">...</div>
+<!-- is the same as -->
+<div class="phone-center-6-7 tabet-col-3-4 laptop-col-3-4">...</div>
+```
 ___
+
+#### portrait and landscape
+If you want to get more granular with your devices, then you can also specify `portrait` and `landscape` for phones and tablets
+
+```html
+<div class="all-col-3-4 phone-portrait-center-5-6 tablet-portrait-center-7-8" id="main">...</div>
+<div class="all-col-1-4 phone-portrait-center-5-6 tablet-portrait-center-7-8" id="sidebar">...</div>
+```
+so, in the above example the main column will be three quarters wide, except on phones and tablets when in portrait, at which point they will be five sixth wide and seven eighths wide, respectively.
+
+######NOTE
+```html
+<div class="phone-center-5-6 phone-landscape-col-1-2">...</div>
+<!-- is the same as -->
+<div class="phone-portrait-center-5-6 phone-landscape-col-1-2">...</div>
+```
 
 #### Simple Offset Example
 
 Offsetting a column will push it to the right by the desired amount.
 
 ```html
-<div class="tl-col-1-4" id="first">...</div>
-<div class="tl-col-1-4 tl-offset-1-4" id="second">...</div>
-<div class="tl-col-1-4" id="third">...</div>
+<div class="all-col-1-4" id="first">...</div>
+<div class="all-col-1-4 all-offset-1-4" id="second">...</div>
+<div class="all-col-1-4" id="third">...</div>
 ```
 
-In this example the second column is offset - pushed to the right, by one quarters width, on screens larger than 640px. 
+In this example the second column is offset - pushed to the right, by one quarters width. 
 
 ###### NOTE
 
-Notice how all the columns widths plus the offset equal one ¼ + ¼ + ¼ + ¼ = 1, this is to ensure that the column is cleared after the last column - columns are cleared after the total widths plus offsets equals one.
+Notice how all the columns widths plus the offset equal one ¼ + ¼ + ¼ + ¼ = 1, this is to ensure that the row of columns is cleared after the last column - columns are cleared after the total widths plus offsets equals one.
 
 A centered column cannot be offset.
 
@@ -157,10 +161,10 @@ ___
 You can displace (push or pull) columns to the left or right in order to let content in the parent column (eg. text) flow around the displaced column.
 
 ```html
-<div class="tl-center-8-10" id="main">
+<div class="all-center-8-10" id="main">
     <h1>...</h1>
     <p>...</p>
-    <div class="tl-col-3-5 tl-left-0-1" id="left">
+    <div class="tablet-landscape-col-3-5 laptop-col-3-5 tablet-landscape-left-0-1 laptop-left-0-1" id="left">
         <h2>...</h2>
         <p>...</p>
     </div>
@@ -168,8 +172,8 @@ You can displace (push or pull) columns to the left or right in order to let con
 </div>
 ```
 
-The markup `tl-left-0-1` would result in a column being displaced to the left and aligned to the left margin of Its parent column (main)
-
+The class `laptop-left-0-1` would result in a column being displaced to the left and aligned to the left margin of Its parent column (main)
+The class `laptop-col-3-5` specifies the width of the displaced column
 ___
 
 #### Simple Displaced Column Example - pushed through the parents margin
@@ -177,17 +181,17 @@ ___
 You can also displace columns through the left or right margin of Its parent.
 
 ```html
-<div class="tl-center-8-10" id="main">
+<div class="all-center-8-10" id="main">
     <h1>...</h1>
     <p>...</p>
-    <div class="tl-col-3-5 tl-left-1-10" id="left">
+    <div class="all-col-3-5 all-left-1-10" id="left">
         <h2>...</h2>
         <p>...</p>
     </div>
     <p>...</p>
 </div>
 ```
-Since the main column is eight tenths wide and centered, that leaves one tenth of free space on either side. By adding the class `tl-left-1-10` the displaced column is pushed through Its parents left margin by one tenth 
+Since the main column is eight tenths wide and centered, that leaves one tenth of free space on either side. By adding the class `all-left-1-10` the displaced column is pushed through Its parents left margin by one tenth 
 
 ######NOTE
 
@@ -202,14 +206,14 @@ ___
 Infinite nesting of columns is possible, just remember; the more you nest, the smaller the columns will become.
 
 ```html
-<div class="tl-center-9-10" id="first">
-    <div class="tl-col-3-4" id="second">
-        <div class="tl-center-12-13" id="third">
-            <div class="tl-col-4-8 tl-offset-1-8" id="fourth">...</div>
-            <div class="tl-col-3-8" id="fifth">...</div>
+<div class="all-center-9-10" id="first">
+    <div class="all-col-3-4" id="second">
+        <div class="all-center-12-13" id="third">
+            <div class="all-col-4-8 all-offset-1-8" id="fourth">...</div>
+            <div class="all-col-3-8" id="fifth">...</div>
         </div>
     </div>
-    <div class="tl-col-1-4" id="sixth">...</div>
+    <div class="all-col-1-4" id="sixth">...</div>
 </div>
 ```
 ######NOTE
@@ -225,28 +229,16 @@ clear-floats are added automatically, independently for each viewport. They are 
 In this example you can see how the auto-insertion of "clear-floats" allows you to create layouts that would be impossible when using standard clearfix containers.
 
 ```html
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- pp -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- pl -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- pp and tp -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- tl -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- pp, pl and dt -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- hd -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- pp and tp -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- pl -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- pp and tl -->
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<div class="pp-col-1-2 pl-col-1-3 tp-col-1-4 tl-col-1-5 dt-col-1-6 hd-col-1-7"></div>
-<!-- <div style="clear:both; class="colymn-clearfix"></div>-->    <!-- pp, pl, tp and dt -->
+<div class="phone-col-1-2 tablet-col-1-3 laptop-col-1-4 desktop-1-5">...</div>
+<div class="phone-col-1-2 tablet-col-1-3 laptop-col-1-4 desktop-1-5">...</div>
+<!-- clear float -->        <!-- for phone -->
+<div class="phone-col-1-2 tablet-col-1-3 laptop-col-1-4 desktop-1-5">...</div>
+<!-- clear float -->        <!-- for tablet -->
+<div class="phone-col-1-2 tablet-col-1-3 laptop-col-1-4 desktop-1-5">...</div>
+<!-- clear float -->        <!-- for laptop -->
+<div class="phone-col-1-2 tablet-col-1-3 laptop-col-1-4 desktop-1-5">...</div>
+<!-- clear float -->        <!-- for desktop -->
+
 ```
 
 ######NOTE
@@ -268,38 +260,57 @@ Class Names cheatsheet | Description
 `prefix-left-x-y` | Displace a column to the left by X number of columns from a total of Y
 `prefix-right-x-y` | Displace a column to the right by X number of columns from a total of Y
 
-* choose one of the prefixes `xx`, `pp`, `pl`, `tp`, `tl`, `dt` or `hd` for that viewport
+* choose one of the prefixes `all`, `phone`, `phone-portrait`, `phone-landscape`, `tablet`, `tablet-portrait`, `tablet-landscape`, `laptop` or `desktop` for that viewport
 * classes `left`, `right` and `offset` must be accompanied with a `col` class to specify width.
-
 ___
+
+####html helper classes
+Since this grid system is written in javascript and not css, I have added some helper classes that attach themselves to the root `html` element of the documet, so that you can match up the grid system in your css. So for example when on a tablet in landscape these classes will be added to the html element `<html class="tablet landscape">` This way you can match the style like so
+
+```css
+.some-element { /* all */ }
+html.phone .some-element { /* phones */ }
+html.phone.portrait .some-element { /* phones in portrait only */ }
+html.phone.landscape .some-element { /* phones in landscape only */ }
+html.tablet .some-element { /* tablets */ }
+html.tablet.portrait .some-element { /* tablets in portrait only */ }
+html.tablet.landscape .some-element { /* tablets in landscape only */ }
+html.laptop .some-element { /* laptops */ }
+html.desktop .some-element { /* desktops */ }
+```
+
+######NOTE
+On desktop both the classes `<html class="laptop desktop">` will be present, this is intentional as to mimic the way the grid inheritence works. If you write your css in a 'mobile first' approach, as above, then it won't be a problem.
 
 ####Questions
 
 >Can I mix my column sizes?
 
->Yes, you can use a mixture of wierd and wonderful fractions such as;
+>Yes, you can use any mixture of wierd and wonderful fractions such as;
 
 ```html
-<div class="dt-col-1-6">...</div>
-<div class="dt-col-2-18">...</div>
-<div class="dt-col-2-14">...</div>
-<div class="dt-col-3-10">...</div>
-<div class="dt-col-3-20">...</div>
-<div class="dt-col-4-31">...</div>
+<div class="all-col-1-6">...</div>
+<div class="all-col-2-18">...</div>
+<div class="all-col-2-14">...</div>
+<div class="all-col-3-10">...</div>
+<div class="all-col-3-20">...</div>
+<div class="all-col-4-31">...</div>
 ```
-
 Just so long as they all add up to 1
+
+>How accurate are the terms 'mobile' and 'tablet'
+
+>About as accurate as possible without using a lot of javascript to detect user agents etc. Either way all ipads come under tablets and iphones come under phones, as do samsung galaxys. The most common phones and tablets get catagorized correctly. Some phablets may come under tablets, others will be phones.
 
 
 ___
 ####version
 
+######2.1
+* adds html helper classes
 
 ######2
 * major update
-* still need to do documentation
-* need to add html helpers
-
 
 ######1.4
 * added options
