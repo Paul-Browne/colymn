@@ -29,13 +29,10 @@ or with options
   <script>
     colymn({
       margin: 4,
-      phonePortrait: 300,
-      phoneLandscape: 300,
-      tabletPortrait: 440,
-      tabletLandscape: 640,
-      desktop: 1024,
-      fullHD: 1440
-    });
+      phone: 680, // upto 680 covers nearly all phones (maybe not some phablets)
+      tablet: 1040, // upto 1040
+      desktop: 1400, //greater than 1400, basically bigger than 1366x768 laptops
+     });
   </script>
 </body>
 ```
@@ -43,17 +40,20 @@ ___
 
 ####How to use
 
-You write column widths like so `prefix-col-X-Y`, where `X ÷ Y` is the columns width and the `prefix` is either `xx, pp, pl, tp, tl, dt or hd`, these represent the different screen sizes. (defaults shown)
+You write column widths like so `prefix-col-X-Y`, where `X ÷ Y` is the columns width and the `prefix` is either `all, phone, phone-portrait, phone-landscape, tablet, tablet-portrait, tablet-landscape, laptop or desktop`, these represent the different screen sizes. (defaults shown)
 
 | type | Prefix | Size |
 |------|--------|------|
-|cross browser |`xx`| `all sizes`|
-|phone: portrait |`pp`| `greater than 300px & height greater than width`|
-|phone: landscape |`pl`| `greater than 300px & width greater than height`|
-|tablet: portrait |`tp`| `greater than 440px & height greater than width`|
-|tablet: landscape |`tl`| `greater than 640px & width greater than height`|
-|desktop |`dt`| `greater than 1024px`|
-|full hd |`hd`| `greater than 1440px`|
+|cross browser |`all`| `all sizes`|
+|phone |`phone`| `less than 680px`|
+|phone: portrait |`phone-portrait`| `less than 680px & height greater than width`|
+|phone: landscape |`phone-landscape`| `less than 680px & width greater than height`|
+|tablet |`tablet`| `greater than 680px`|
+|tablet:portrait |`tablet-portrait`| `greater than 680px & height greater than width`|
+|tablet:landscape |`tablet-landscape`| `greater than 680px & width greater than height`|
+|laptop |`laptop`| `greater than 1040px`|
+|desktop |`desktop`| `greater than 1400px`|
+
 
 ___
 
@@ -62,8 +62,8 @@ ___
 colymn works so that breakpoints inherit the size from smaller breakpoints of similar aspect ratio. for example;
 
 ```html
-<div class="pp-center-5-6 pl-col-3-4" id="main">...</div>
-<div class="pp-center-5-6 pl-col-1-4" id="sidebar">...</div>
+<div class="phone-center-5-6 desktop-col-3-4" id="main">...</div>
+<div class="phone-center-5-6 desktop-col-1-4" id="sidebar">...</div>
 ```
 
 when this example is viewed on a phone in portrait or a tablet in portrait, there will be 2 columns that are almost the full width of the screen, with the sidebar following after the main column. But when viewed on a phone in landscape, on a tablet in landscape, on a desktop or a full HD monitor, there will be 2 columns: a main column and a sidebar, three quarters and one quarter wide respectively. This is because `hd`, `dt` and `tl` have a similar aspect ratio as `pl` (all 4 are wider than they are high) and therefore inherit the `pl` markup.
@@ -293,6 +293,13 @@ Just so long as they all add up to 1
 
 ___
 ####version
+
+
+######2
+* major update
+* still need to do documentation
+* need to add html helpers
+
 
 ######1.4
 * added options
