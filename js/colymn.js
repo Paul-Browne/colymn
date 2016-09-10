@@ -1,4 +1,4 @@
-/*! colymn.min.js v2 | GNU License | Paul Browne | 2016 */
+/*! colymn.min.js v2.1 | GNU License | Paul Browne | 2015 */
 
 (function() {
 
@@ -15,15 +15,18 @@
             }
         }), b;
     }
-  
+
     // defaults 
     var defaults = {
             margin: 4,
             phone: 680,
             tablet: 1040,
             desktop: 1400,
-        }, 
+        },
         args;
+
+
+
 
     colymn = function(options) {
         args = arguments[0];
@@ -35,6 +38,35 @@
             pp = options ? (options.phone ? options.phone : defaults.phone) : defaults.phone,
             tp = options ? (options.tablet ? options.tablet : defaults.tablet) : defaults.tablet,
             dt = options ? (options.desktop ? options.desktop : defaults.desktop) : defaults.desktop;
+
+        // html helper
+
+        var html = document.documentElement;
+
+        html.className = html.className.replace(/(?:^|\s)(phone|tablet|laptop|desktop|portrait|landscape)(?!\S)/g, "");
+
+        if (a < pp) {
+            html.className += " phone";
+        }
+        if ((a >= pp) && (a < tp)) {
+            html.className += " tablet";
+        }
+        if (a >= tp) {
+            html.className += " laptop";
+        }
+        if (a >= dt) {
+            html.className += " desktop";
+        }
+        if (a < b) {
+            html.className += " portrait";
+        }
+        if (a >= b) {
+            html.className += " landscape";
+        }
+
+
+
+
         // remove all clearing divs
         for (var z = 0; z < d.length; z++) {
             d[z].parentNode.removeChild(d[z]);
@@ -85,40 +117,40 @@
                 for (var g = 0; g < q.length; ++g) {
                     var m = q[g].style;
                     var joe = "all";
-                  
-                  if( a < pp ){
-                      if( testy(rep("phone")) ){
-                        joe = "phone";
-                      }                      
-                      if( (b>a)&&testy(rep("phone-portrait")) ){
-                        joe = "phone-portrait";
-                      }                      
-                      if( (a>b)&&testy(rep("phone-landscape")) ){
-                        joe = "phone-portrait";
-                      }                       
+
+                    if (a < pp) {
+                        if (testy(rep("phone"))) {
+                            joe = "phone";
+                        }
+                        if ((b > a) && testy(rep("phone-portrait"))) {
+                            joe = "phone-portrait";
+                        }
+                        if ((a > b) && testy(rep("phone-landscape"))) {
+                            joe = "phone-portrait";
+                        }
                     }
-                  
-                    if(( a >= pp )&&( a < tp )){
-                      if( testy(rep("tablet")) ){
-                        joe = "tablet";
-                      }                      
-                      if( (b>a)&&testy(rep("tablet-portrait")) ){
-                        joe = "tablet-portrait";
-                      }                      
-                      if( (a>b)&&testy(rep("tablet-landscape")) ){
-                        joe = "tablet-portrait";
-                      }                       
-                    }                  
-                  
+
+                    if ((a >= pp) && (a < tp)) {
+                        if (testy(rep("tablet"))) {
+                            joe = "tablet";
+                        }
+                        if ((b > a) && testy(rep("tablet-portrait"))) {
+                            joe = "tablet-portrait";
+                        }
+                        if ((a > b) && testy(rep("tablet-landscape"))) {
+                            joe = "tablet-landscape";
+                        }
+                    }
+
                     if ((a >= tp) && (testy(rep("laptop")))) {
                         joe = "laptop";
                     }
-                  
+
                     if ((a >= dt) && (testy(rep("desktop")))) {
                         joe = "desktop";
-                    }  
-                  
-                  
+                    }
+
+
                     var ss = reg(joe, "left"),
                         rr = reg(joe, "right"),
                         tt = reg(joe, "(col|offset)"),
