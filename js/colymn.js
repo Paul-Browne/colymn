@@ -126,7 +126,7 @@
                             joe = "phone-portrait";
                         }
                         if ((a > b) && testy(rep("phone-landscape"))) {
-                            joe = "phone-portrait";
+                            joe = "phone-landscape";
                         }
                     }
 
